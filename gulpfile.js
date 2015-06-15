@@ -7,6 +7,7 @@ var gulp 			= require('gulp'),
 	coffee 			= require('gulp-coffee');
 
 var coffeeSources 	= ['components/coffee/*.coffee'];
+
 var jsSources 		= [
 	'components/scripts/rclick.js',
 	'components/scripts/pixgrid.js',
@@ -16,12 +17,18 @@ var jsSources 		= [
 
 var sassSources		= ['components/sass/style.scss'];
 
-gulp.task('default', ['coffee', 'js', 'compass', 'connect', 'watch']);
+var htmlSources		= ['builds/development/*.html'];
+
+var jsonSources		= ['builds/development/js/*.json'];
+
+gulp.task('default', ['html', 'json', 'coffee', 'js', 'compass', 'connect', 'watch']);
 
 gulp.task('watch', function() {
 	gulp.watch(coffeeSources, ['coffee']);
 	gulp.watch(jsSources, ['js']);
 	gulp.watch('components/sass/*.scss', ['compass']);
+	gulp.watch(htmlSources, ['html']);
+	gulp.watch(jsonSources, ['json']);
 });
 
 gulp.task('connect', function() {
@@ -29,6 +36,16 @@ gulp.task('connect', function() {
 		root: 'builds/development/',
 		livereload: true
 	});
+});
+
+gulp.task('html', function() {
+	gulp.src(htmlSources)
+	.pipe(connect.reload())
+});
+
+gulp.task('json', function() {
+	gulp.src(jsonSources)
+	.pipe(connect.reload())
 });
 
 gulp.task('js', function() {
