@@ -15,13 +15,13 @@ var jsSources 		= [
 
 var sassSources		= ['components/sass/style.scss'];
 
+gulp.task('default', ['coffee', 'js', 'compass', 'watch']);
+
 gulp.task('watch', function() {
 	gulp.watch(coffeeSources, ['coffee']);
 	gulp.watch(jsSources, ['js']);
 	gulp.watch('components/sass/*.scss', ['compass']);
 });
-
-gulp.task('default', ['coffee', 'js', 'compass']);
 
 gulp.task('js', function() {
 	gulp.src(jsSources)
