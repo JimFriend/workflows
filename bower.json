@@ -1,0 +1,15 @@
+{
+  "name": "salaries",
+  "version": "0.0.1",
+  "authors": [
+    "Jim Friend"
+  ],
+  "description": "A simple salary app to crowd source salary data",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

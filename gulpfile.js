@@ -8,11 +8,9 @@ var gulp 			= require('gulp'),
 	gulpif 			= require('gulp-if'),
 	uglify 			= require('gulp-uglify'),
 	minifyhtml		= require('gulp-minify-html'),
-	jsonminify		= require('gulp-jsonminify'),
-	coffee 			= require('gulp-coffee');
+	jsonminify		= require('gulp-jsonminify');
 
 var env,
-	coffeeSources,
 	jsSources,
 	sassSources,
 	htmlSources,
@@ -27,22 +25,14 @@ if( env === 'development' ) {
 	outputDir 	= 'builds/production/';
 }
 
-coffeeSources 	= ['components/coffee/*.coffee'];
 sassSources		= ['components/sass/style.scss'];
 htmlSources		= [outputDir + '*.html'];
 jsonSources		= [outputDir + 'js/*.json'];
-jsSources 		= [
-	'components/scripts/rclick.js',
-	'components/scripts/pixgrid.js',
-	'components/scripts/tagline.js',
-	'components/scripts/template.js'
-];
+jsSources 		= ['components/scripts/debug.js'];
 
-
-gulp.task('default', ['html', 'json', 'coffee', 'js', 'compass', 'connect', 'watch']);
+gulp.task('default', ['html', 'json', 'js', 'compass', 'connect', 'watch']);
 
 gulp.task('watch', function() {
-	gulp.watch(coffeeSources, ['coffee']);
 	gulp.watch(jsSources, ['js']);
 	gulp.watch('components/sass/*.scss', ['compass']);
 	gulp.watch('builds/development/*.html', ['html']);
@@ -89,11 +79,4 @@ gulp.task('compass', function() {
 		.pipe(gulpif(env === 'production', minifycss()))
 		.pipe(gulp.dest(outputDir + 'css'))
 		.pipe(connect.reload())
-});
-
-gulp.task('coffee', function() {
-	gulp.src(coffeeSources)
-		.pipe(coffee({bare:true}))
-		.on('error', gutil.log)
-		.pipe(gulp.dest('components/scripts'));
 });
