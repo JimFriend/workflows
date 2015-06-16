@@ -3,11 +3,14 @@ var gulp 			= require('gulp'),
 	concat 			= require('gulp-concat'),
 	browserify 		= require('gulp-browserify'),
 	sass 			= require('gulp-sass'),
-	minifycss		= require('gulp-minify-css')
+	sourcemaps		= require('gulp-sourcemaps'),
+	minifycss		= require('gulp-minify-css'),
 	connect 		= require('gulp-connect'),
 	gulpif 			= require('gulp-if'),
 	uglify 			= require('gulp-uglify'),
 	minifyhtml		= require('gulp-minify-html'),
+	autoprefixer	= require('gulp-autoprefixer'),
+	plumber			= require('gulp-plumber'),
 	jsonminify		= require('gulp-jsonminify');
 
 var env,
@@ -19,7 +22,8 @@ var env,
 	config;
 
 config = {
-	bootstrapDir: './bower_components/bootstrap-sass'
+	bowerDir		: './bower_components',
+	bootstrapDir 	: './bower_components/bootstrap-sass'
 };
 
 env = process.env.NODE_ENV || 'development';
@@ -37,7 +41,13 @@ htmlSources = [outputDir + '*.html'];
 jsonSources = [outputDir + 'js/*.json'];
 jsSources = ['components/scripts/debug.js'];
 
-gulp.task('default', ['html', 'json', 'css', 'fonts', 'js', 'connect', 'watch']);
+var onError = function (err) {  
+	gutil.beep();
+	console.log(err);
+	this.emit('end');
+};
+
+gulp.task('default', ['html', 'json', 'css', 'fonts', 'icons', 'js', 'connect', 'watch']);
 
 gulp.task('watch', function() {
 	gulp.watch(jsSources, ['js']);
@@ -55,20 +65,29 @@ gulp.task('connect', function() {
 
 gulp.task('html', function() {
 	gulp.src('builds/development/*.html')
-	.pipe(gulpif(env === 'production', minifyhtml()))
-	.pipe(gulpif(env === 'production', gulp.dest(outputDir)))
-	.pipe(connect.reload())
+		.pipe(plumber({
+      		errorHandler: onError
+    	}))
+		.pipe(gulpif(env === 'production', minifyhtml()))
+		.pipe(gulpif(env === 'production', gulp.dest(outputDir)))
+		.pipe(connect.reload())
 });
 
 gulp.task('json', function() {
 	gulp.src('builds/development/js/*.json')
-	.pipe(gulpif(env === 'production', jsonminify()))
-	.pipe(gulpif(env === 'production', gulp.dest('builds/production/js')))
-	.pipe(connect.reload())
+		.pipe(plumber({
+      		errorHandler: onError
+    	}))
+		.pipe(gulpif(env === 'production', jsonminify()))
+		.pipe(gulpif(env === 'production', gulp.dest('builds/production/js')))
+		.pipe(connect.reload())
 });
 
 gulp.task('js', function() {
 	gulp.src(jsSources)
+		.pipe(plumber({
+      		errorHandler: onError
+    	}))
 		.pipe(concat('script.js'))
 		.pipe(browserify())
 		.pipe(gulpif(env === 'production', uglify()))
@@ -78,16 +97,34 @@ gulp.task('js', function() {
 
 gulp.task('css', function() {
 	gulp.src('./components/sass/style.scss')
+		.pipe(plumber({
+      		errorHandler: onError
+    	}))
+   		.pipe(sourcemaps.init())
 		.pipe(sass({
 			includePaths: [config.bootstrapDir + '/assets/stylesheets']
 		}))
-		.on('error', gutil.log)
+		.pipe(autoprefixer('last 10 versions', 'ie 9'))
 		.pipe(gulpif(env === 'production', minifycss()))
+		.pipe(sourcemaps.write())
 		.pipe(gulp.dest(outputDir + 'css'))
 		.pipe(connect.reload())
 });
 
 gulp.task('fonts', function() {
     gulp.src(config.bootstrapDir + '/assets/fonts/**/*')
-    	.pipe(gulp.dest(outputDir + '/fonts'));
+		.pipe(plumber({
+      		errorHandler: onError
+    	}))
+    	.pipe(gulp.dest(outputDir + '/fonts'))
+    	.pipe(connect.reload())
+});
+
+gulp.task('icons', function() { 
+    gulp.src(config.bowerDir + '/fontawesome/fonts/**.*') 
+		.pipe(plumber({
+      		errorHandler: onError
+    	}))
+    	.pipe(gulp.dest(outputDir + '/fonts'))
+    	.pipe(connect.reload())
 });
