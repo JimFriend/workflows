@@ -2,7 +2,7 @@ var gulp 			= require('gulp'),
 	gutil 			= require('gulp-util'),
 	concat 			= require('gulp-concat'),
 	browserify 		= require('gulp-browserify'),
-	compass 		= require('gulp-compass'),
+	sass 			= require('gulp-sass'),
 	minifycss		= require('gulp-minify-css')
 	connect 		= require('gulp-connect'),
 	gulpif 			= require('gulp-if'),
@@ -15,26 +15,33 @@ var env,
 	sassSources,
 	htmlSources,
 	jsonSources,
-	outputDir;
+	outputDir,
+	config;
 
-env 			= process.env.NODE_ENV || 'development';
+config = {
+	bootstrapDir: './bower_components/bootstrap-sass'
+};
+
+env = process.env.NODE_ENV || 'development';
 
 if( env === 'development' ) {
-	outputDir 	= 'builds/development/';
+	outputDir = 'builds/development/';
 } else {
-	outputDir 	= 'builds/production/';
+	outputDir = 'builds/production/';
 }
 
-sassSources		= ['components/sass/style.scss'];
-htmlSources		= [outputDir + '*.html'];
-jsonSources		= [outputDir + 'js/*.json'];
-jsSources 		= ['components/scripts/debug.js'];
+sassSources = [
+	'components/sass/style.scss'
+];
+htmlSources = [outputDir + '*.html'];
+jsonSources = [outputDir + 'js/*.json'];
+jsSources = ['components/scripts/debug.js'];
 
-gulp.task('default', ['html', 'json', 'js', 'compass', 'connect', 'watch']);
+gulp.task('default', ['html', 'json', 'css', 'fonts', 'js', 'connect', 'watch']);
 
 gulp.task('watch', function() {
 	gulp.watch(jsSources, ['js']);
-	gulp.watch('components/sass/*.scss', ['compass']);
+	gulp.watch('components/sass/*.scss', ['css']);
 	gulp.watch('builds/development/*.html', ['html']);
 	gulp.watch('builds/development/*.json', ['json']);
 });
@@ -69,14 +76,18 @@ gulp.task('js', function() {
 		.pipe(connect.reload())
 });
 
-gulp.task('compass', function() {
-	gulp.src(sassSources)
-		.pipe(compass({
-			sass: 'components/sass',
-			images: outputDir + 'images',
+gulp.task('css', function() {
+	gulp.src('./components/sass/style.scss')
+		.pipe(sass({
+			includePaths: [config.bootstrapDir + '/assets/stylesheets']
 		}))
 		.on('error', gutil.log)
 		.pipe(gulpif(env === 'production', minifycss()))
 		.pipe(gulp.dest(outputDir + 'css'))
 		.pipe(connect.reload())
+});
+
+gulp.task('fonts', function() {
+    gulp.src(config.bootstrapDir + '/assets/fonts/**/*')
+    	.pipe(gulp.dest(outputDir + '/fonts'));
 });

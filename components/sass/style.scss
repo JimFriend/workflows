@@ -1,13 +1,9 @@
 // style.scss
 // ==============
 
-//Compass imports
-@import "compass";
-@import "compass/reset";
-@import "compass/css3/box-shadow";
-
-//Core partials
+//Bootstrap custom imports
 @import "variables";
-@import "mixins";
-@import "base";
-@import "modules";
+
+//Bootstrap imports
+@import "bootstrap";
+@import "bootstrap/theme";
