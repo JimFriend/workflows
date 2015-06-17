@@ -27,14 +27,14 @@ var paths = {
 		node 					: './node_modules'
 	},
 	dev 					: {
-		base 				: './builds/development/',
+		base 				: './builds/development',
 		css 				: './builds/development/css',
 		fonts 				: './builds/development/fonts',
 		images 				: './builds/development/images',
 		js 					: './builds/development/js'
 	},
 	pub					: {
-		base 				: './builds/production/',
+		base 				: './builds/production',
 		css 				: './builds/production/css',
 		fonts 				: './builds/production/fonts',
 		js 					: './builds/production/js'
@@ -77,8 +77,8 @@ if( env === 'development' ) {
 }
 
 sassSources = ['components/sass/style.scss'];
-htmlSources = [outputDir + '*.html'];
-jsonSources = [outputDir + 'js/*.json'];
+htmlSources = [outputDir + '/*.html'];
+jsonSources = [outputDir + '/js/*.json'];
 jsSources = ['components/scripts/*.js'];
 
 var onError = function( err ) {  
@@ -104,7 +104,7 @@ gulp.task( 'connect', function() {
 });
 
 gulp.task( 'html', function() {
-	gulp.src( 'builds/development/*.html' )
+	gulp.src( paths.dev.base + '/*.html' )
 		.pipe( plumber({
       		errorHandler : onError
     	}))
@@ -114,12 +114,12 @@ gulp.task( 'html', function() {
 });
 
 gulp.task( 'json', function() {
-	gulp.src( 'builds/development/js/*.json' )
+	gulp.src( paths.dev.js + '*.json' )
 		.pipe( plumber({
       		errorHandler : onError
     	}))
 		.pipe( gulpif( env === 'production', jsonminify() ) )
-		.pipe( gulpif( env === 'production', gulp.dest( 'builds/production/js') ) )
+		.pipe( gulpif( env === 'production', gulp.dest( paths.pub.js ) ) )
 		.pipe( connect.reload() )
 });
 
@@ -131,28 +131,28 @@ gulp.task( 'js', function() {
 		.pipe( concat( 'script.js' ) )
 		.pipe( browserify() )
 		.pipe( gulpif(env === 'production', uglify() ) )
-		.pipe( gulp.dest( outputDir + 'js' ) )
+		.pipe( gulp.dest( outputDir + '/js' ) )
 		.pipe( connect.reload() )
 });
 
 gulp.task( 'css', function() {
-	gulp.src( './components/sass/style.scss' )
+	gulp.src( paths.components.sass + '/style.scss' )
 		.pipe( plumber({
       		errorHandler : onError
     	}))
    		.pipe( sourcemaps.init() )
 		.pipe( sass({
-			includePaths : [config.bootstrapDir + '/assets/stylesheets']
+			includePaths : [paths.vendor.bootstrap.css]
 		}))
 		.pipe( autoprefixer( 'last 10 versions', 'ie 9' ) )
 		.pipe( gulpif(env === 'production', minifycss() ) )
 		.pipe( sourcemaps.write() )
-		.pipe( gulp.dest( outputDir + 'css') )
+		.pipe( gulp.dest( outputDir + '/css') )
 		.pipe( connect.reload() )
 });
 
 gulp.task( 'fonts', function() {
-    gulp.src( config.bootstrapDir + '/assets/fonts/**/*' )
+    gulp.src( paths.vendor.bootstrap.fonts + '/**/*' )
 		.pipe( plumber({
       		errorHandler : onError
     	}))
