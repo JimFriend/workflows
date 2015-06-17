@@ -21,9 +21,51 @@ var env,
 	outputDir,
 	config;
 
+var paths = {
+	config					: {
+		bower 					: './bower_components',
+		node 					: './node_modules'
+	},
+	dev 					: {
+		base 				: './builds/development',
+		css 				: './builds/development/css',
+		fonts 				: './builds/development/fonts',
+		images 				: './builds/development/images',
+		js 					: './builds/development/js'
+	},
+	dist					: {
+		base 				: './builds/production',
+		css 				: './builds/production/css',
+		fonts 				: './builds/production/fonts',
+		js 					: './builds/production/js'
+	},
+	components 				: {
+		base				: './components',
+		sass 				: './components/sass',
+		js 					: './components/js'
+	}
+	vendor					: {
+		bootstrap 			: {
+			base			: './bower_components/bootstrap-sass',
+			fonts 			: './bower_components/bootstrap-sass/assets/fonts',
+			images 			: './bower_components/bootstrap-sass/assets/images',
+			js 				: './bower_components/bootstrap-sass/assets/javascripts',
+			css 			: './bower_components/bootstrap-sass/assets/stylesheets'
+		},
+		fontawesome			: {
+			base            : './bower_components/fontawesome',
+			css 			: './bower_components/fontawesome/css',
+			fonts 			: './bower_components/fontawesome/fonts',
+			sass 			: './bower_components/fontawesome/scss'
+		}
+
+	}
+};
+
 config = {
 	bowerDir		: './bower_components',
-	bootstrapDir 	: './bower_components/bootstrap-sass'
+	bootstrapDir 	: './bower_components/bootstrap-sass',
+	nodeDir			: './node_modules'
 };
 
 env = process.env.NODE_ENV || 'development';
@@ -39,7 +81,7 @@ sassSources = [
 ];
 htmlSources = [outputDir + '*.html'];
 jsonSources = [outputDir + 'js/*.json'];
-jsSources = ['components/scripts/debug.js'];
+jsSources = ['components/scripts/*.js'];
 
 var onError = function (err) {  
 	gutil.beep();
