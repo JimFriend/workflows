@@ -1,5 +1,4 @@
 // @TODO
-// Add gutil logging with colors for better output in console
 // Make sure watch task is working
 
 var gulp 			= require( 'gulp' ),
@@ -100,6 +99,9 @@ gulp.task( 'html', function() {
 		.pipe( gulpif( env === 'production', minifyhtml() ) )
 		.pipe( gulpif( env === 'production', gulp.dest( outputDir ) ) )
 		.pipe( connect.reload() );
+	if( env === 'production' ) {
+		logInfo( sources.html, outputDir );
+	}
 });
 
 gulp.task( 'css', function() {
@@ -116,6 +118,7 @@ gulp.task( 'css', function() {
 		.pipe( sourcemaps.write() )
 		.pipe( gulp.dest( outputDir + '/css') )
 		.pipe( connect.reload() );
+	logInfo( sources.css, outputDir + '/css' );
 });
 
 gulp.task( 'js', function() {
@@ -128,8 +131,7 @@ gulp.task( 'js', function() {
 		.pipe( gulpif(env === 'production', uglify() ) )
 		.pipe( gulp.dest( outputDir + '/js' ) )
 		.pipe( connect.reload() );
-	gutil.log( gutil.colors.green( 'From: ' +  sources.js ) );
-	gutil.log( gutil.colors.green( 'To: ' +  outputDir + '/js' ) );
+	logInfo( sources.js, outputDir + '/js' );
 });
 
 gulp.task( 'json', function() {
@@ -140,6 +142,9 @@ gulp.task( 'json', function() {
 		.pipe( gulpif( env === 'production', jsonminify() ) )
 		.pipe( gulpif( env === 'production', gulp.dest( paths.pub.js ) ) )
 		.pipe( connect.reload() );
+	if( env === 'production' ) {
+		logInfo( sources.json, paths.pub.js );
+	}
 });
 
 gulp.task( 'fonts', function() {
@@ -149,6 +154,7 @@ gulp.task( 'fonts', function() {
     	}))
     	.pipe( gulp.dest( outputDir + '/fonts') )
     	.pipe( connect.reload() );
+	logInfo( sources.fonts, outputDir + '/fonts' );
 });
 
 gulp.task( 'icons', function() { 
@@ -158,10 +164,16 @@ gulp.task( 'icons', function() { 
     	}))
     	.pipe( gulp.dest( outputDir + '/fonts' ) )
     	.pipe( connect.reload() );
+	logInfo( sources.icons, outputDir + '/fonts' );
 });
 
 var onError = function( err ) {  
 	gutil.beep();
 	console.log( err );
 	this.emit( 'end' );
+};
+
+var logInfo = function( src, dest ) {
+	gutil.log( gutil.colors.yellow( 'From: ' +  src ) );
+	gutil.log( gutil.colors.yellow( 'To: ' +  dest ) );
 };
