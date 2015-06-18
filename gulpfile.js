@@ -1,6 +1,3 @@
-// @TODO
-// Make sure watch task is working
-
 // Load plugins
 var gulp 			= require( 'gulp' ),
 	gutil 			= require( 'gulp-util' ),
@@ -18,6 +15,7 @@ var gulp 			= require( 'gulp' ),
 	rename			= require( 'gulp-rename' ),
 	jsonminify		= require( 'gulp-jsonminify' );
 
+// Paths object that contains all variables for paths/directories used in this file
 var paths = {
 	config				: {
 		bower 			: './bower_components',
@@ -59,6 +57,7 @@ var paths = {
 	}
 };
 
+// Sources object that contains variables for all paths/sources used in the gulp.src lines within gulp tasks
 var sources = {
 	html 				: [paths.dev.base + '/*.html'],
 	css 				: [paths.components.sass + '/style.scss'],
@@ -68,8 +67,12 @@ var sources = {
 	icons 				: [paths.vendor.fontawesome.fonts + '/**.*']
 };
 
+// Setup our environment variable to use what we set in Terminal or 'development' by default
+// To set the variable in terminal to 'production', "use NODE_ENV=production gulp"
 var env = process.env.NODE_ENV || 'development';
 
+// Setup our output variable
+// This determines whether or not we write to the development build or the production build
 var outputDir;
 if( env === 'development' ) {
 	outputDir = paths.dev.base;
@@ -77,8 +80,11 @@ if( env === 'development' ) {
 	outputDir = paths.pub.base;
 }
 
+// Setup our default gulp task that runs the specified tasks when "gulp" is entered in Terminal
 gulp.task( 'default', ['html', 'json', 'css', 'fonts', 'icons', 'js', 'connect', 'watch'] );
 
+// Create our "watch" task
+// Whenever we edit and save any files that we are watching below, the associated tasks will run
 gulp.task( 'watch', function() {
 	gulp.watch( sources.js, ['js'] );
 	gulp.watch( paths.components.sass + '/*.scss', ['css'] );
@@ -86,6 +92,7 @@ gulp.task( 'watch', function() {
 	gulp.watch( sources.json, ['json'] );
 });
 
+// Create our "connect" task to start our server for live reload
 gulp.task( 'connect', function() {
 	connect.server({
 		root : outputDir,
@@ -93,6 +100,8 @@ gulp.task( 'connect', function() {
 	});
 });
 
+// Create our "html" task
+// When run in 'production' mode, we'll get a minified version of our html files
 gulp.task( 'html', function() {
 	gulp.src( sources.html )
 		.pipe( plumber({
@@ -106,6 +115,9 @@ gulp.task( 'html', function() {
 	}
 });
 
+// Create our "css" task
+// We compile our sass partials here, autoprefix them, create our sourcemaps,
+// and minify if this is being run in 'production' mode
 gulp.task( 'css', function() {
 	gulp.src( sources.css )
 		.pipe( plumber({
@@ -124,6 +136,9 @@ gulp.task( 'css', function() {
 	logInfo( sources.css, outputDir + '/css' );
 });
 
+// Create our "js" task
+// First we pull all our js files into one file with concat, pull in required libraries through browserify,
+// then uglify if we're running in 'production' mode
 gulp.task( 'js', function() {
 	gulp.src( sources.js )
 		.pipe( plumber({
@@ -138,6 +153,8 @@ gulp.task( 'js', function() {
 	logInfo( sources.js, outputDir + '/js' );
 });
 
+// Create our "json" task
+// When running in 'production' mode, we minify our json before writing
 gulp.task( 'json', function() {
 	gulp.src( sources.json )
 		.pipe( plumber({
@@ -151,6 +168,7 @@ gulp.task( 'json', function() {
 	}
 });
 
+// Create our "fonts" task to move fonts from their vendor libraries to the appropriate build dir
 gulp.task( 'fonts', function() {
     gulp.src( sources.fonts )
 		.pipe( plumber({
@@ -161,6 +179,7 @@ gulp.task( 'fonts', function() {
 	logInfo( sources.fonts, outputDir + '/fonts' );
 });
 
+// Create our "icons" task to move fonts from their vendor libraries to the appropriate build dir
 gulp.task( 'icons', function() { 
     gulp.src( sources.icons ) 
 		.pipe( plumber({
@@ -171,12 +190,14 @@ gulp.task( 'icons', function() { 
 	logInfo( sources.icons, outputDir + '/fonts' );
 });
 
+// Error handling function used by gulp-plubmer
 var onError = function( err ) {  
 	gutil.beep();
 	console.log( err );
 	this.emit( 'end' );
 };
 
+// Function for writing additional color-coded debug information to Terminal
 var logInfo = function( src, dest ) {
 	gutil.log( gutil.colors.yellow( 'From: ' +  src ) );
 	gutil.log( gutil.colors.yellow( 'To: ' +  dest ) );
