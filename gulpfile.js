@@ -26,18 +26,22 @@ var paths = {
 		images 			: './builds/development/images',
 		css 			: './builds/development/css',
 		js 				: './builds/development/js',
-		fonts 			: './builds/development/fonts'
+		fonts 			: './builds/development/fonts',
+		views			: './builds/development/views'
 	},
 	pub					: {
 		base 			: './builds/production',
 		css 			: './builds/production/css',
 		js 				: './builds/production/js',
-		fonts 			: './builds/production/fonts'
+		fonts 			: './builds/production/fonts',
+		views			: './builds/production/views'
 	},
 	components 			: {
 		base			: './components',
 		sass 			: './components/sass',
-		js 				: './components/scripts'
+		js 				: './components/scripts',
+		controllers		: './components/scripts/controllers',
+		services		: './components/scripts/services'
 	},
 	vendor				: {
 		bootstrap 		: {
@@ -60,8 +64,9 @@ var paths = {
 // Sources object that contains variables for all paths/sources used in the gulp.src lines within gulp tasks
 var sources = {
 	html 				: [paths.dev.base + '/*.html'],
+	views				: [paths.dev.views + '/*.html'],
 	css 				: [paths.components.sass + '/style.scss'],
-	js 					: [paths.components.js + '/*.js'],
+	js 					: [paths.components.js + '/*.js', paths.components.controllers + '/*.js'],
 	json 				: [paths.dev.js + '/*.json'],
 	fonts 				: [paths.vendor.bootstrap.fonts + '/**.*'],
 	icons 				: [paths.vendor.fontawesome.fonts + '/**.*']
@@ -81,7 +86,7 @@ if( env === 'development' ) {
 }
 
 // Setup our default gulp task that runs the specified tasks when "gulp" is entered in Terminal
-gulp.task( 'default', ['html', 'json', 'css', 'fonts', 'icons', 'js', 'connect', 'watch'] );
+gulp.task( 'default', ['html', 'views', 'json', 'css', 'fonts', 'icons', 'js', 'connect', 'watch'] );
 
 // Create our "watch" task
 // Whenever we edit and save any files that we are watching below, the associated tasks will run
@@ -89,6 +94,7 @@ gulp.task( 'watch', function() {
 	gulp.watch( sources.js, ['js'] );
 	gulp.watch( paths.components.sass + '/*.scss', ['css'] );
 	gulp.watch( sources.html, ['html'] );
+	gulp.watch( sources.views, ['views'] );
 	gulp.watch( sources.json, ['json'] );
 });
 
@@ -112,6 +118,21 @@ gulp.task( 'html', function() {
 		.pipe( connect.reload() );
 	if( env === 'production' ) {
 		logInfo( sources.html, outputDir );
+	}
+});
+
+// Create our "views" task
+// When run in 'production' mode, we'll get a minified version of our views files
+gulp.task( 'views', function() {
+	gulp.src( sources.views )
+		.pipe( plumber({
+      		errorHandler : onError
+    	}))
+		.pipe( gulpif( env === 'production', minifyhtml() ) )
+		.pipe( gulpif( env === 'production', gulp.dest( paths.pub.views ) ) )
+		.pipe( connect.reload() );
+	if( env === 'production' ) {
+		logInfo( sources.views, paths.pub.views );
 	}
 });
 
