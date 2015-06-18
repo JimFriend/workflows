@@ -1,6 +1,7 @@
 // @TODO
 // Make sure watch task is working
 
+// Load plugins
 var gulp 			= require( 'gulp' ),
 	gutil 			= require( 'gulp-util' ),
 	concat 			= require( 'gulp-concat' ),
@@ -14,6 +15,7 @@ var gulp 			= require( 'gulp' ),
 	minifyhtml		= require( 'gulp-minify-html' ),
 	autoprefixer	= require( 'gulp-autoprefixer' ),
 	plumber			= require( 'gulp-plumber' ),
+	rename			= require( 'gulp-rename' ),
 	jsonminify		= require( 'gulp-jsonminify' );
 
 var paths = {
@@ -114,7 +116,8 @@ gulp.task( 'css', function() {
 			includePaths : [paths.vendor.bootstrap.css]
 		}))
 		.pipe( autoprefixer( 'last 10 versions', 'ie 9' ) )
-		.pipe( gulpif(env === 'production', minifycss() ) )
+		//.pipe( gulpif( env === 'production', rename( { suffix : '.min' } ) ) )
+		.pipe( gulpif( env === 'production', minifycss() ) )
 		.pipe( sourcemaps.write() )
 		.pipe( gulp.dest( outputDir + '/css') )
 		.pipe( connect.reload() );
@@ -128,6 +131,7 @@ gulp.task( 'js', function() {
     	}))
 		.pipe( concat( 'script.js' ) )
 		.pipe( browserify() )
+		//.pipe( gulpif( env === 'production', rename( { suffix : '.min' } ) ) )
 		.pipe( gulpif(env === 'production', uglify() ) )
 		.pipe( gulp.dest( outputDir + '/js' ) )
 		.pipe( connect.reload() );
