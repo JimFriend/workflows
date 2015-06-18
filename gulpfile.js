@@ -81,9 +81,9 @@ gulp.task( 'default', ['html', 'json', 'css', 'fonts', 'icons', 'js', 'connect',
 
 gulp.task( 'watch', function() {
 	gulp.watch( sources.js, ['js'] );
-	gulp.watch( 'components/sass/*.scss', ['css'] );
-	gulp.watch( 'builds/development/*.html', ['html'] );
-	gulp.watch( 'builds/development/*.json', ['json'] );
+	gulp.watch( paths.components.sass + '/*.scss', ['css'] );
+	gulp.watch( sources.html, ['html'] );
+	gulp.watch( sources.json, ['json'] );
 });
 
 gulp.task( 'connect', function() {
