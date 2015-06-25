@@ -54,6 +54,11 @@ body {
   margin-top: 28px;
 }
 
+/* Clear floats on login modal for the footer */
+#LoginModal .modal-footer {
+  clear:both;
+}
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   /* Remove the padding we set earlier */
