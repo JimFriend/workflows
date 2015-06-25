@@ -93,6 +93,7 @@ gulp.task( 'default', ['html', 'views', 'json', 'css', 'fonts', 'icons', 'js', '
 gulp.task( 'watch', function() {
 	gulp.watch( sources.js, ['js'] );
 	gulp.watch( paths.components.sass + '/*.scss', ['css'] );
+	gulp.watch( paths.vendor.bootstrap.css + '/bootstrap/*.scss', ['css'] );
 	gulp.watch( sources.html, ['html'] );
 	gulp.watch( sources.views, ['views'] );
 	gulp.watch( sources.json, ['json'] );

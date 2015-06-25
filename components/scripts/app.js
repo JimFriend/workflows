@@ -9,6 +9,19 @@ var myApp = angular.module( 'myApp', ['ngRoute', 'appControllers', 'firebase'] )
 
 var appControllers = angular.module( 'appControllers', ['firebase'] );
 
+myApp.run( ['$rootScope', '$location',
+	function( $rootScope, $location ) {
+		$rootScope.$on( '$routeChangeError',
+			function( event, next, previous, error ) {
+				if( error === 'AUTH_REQUIRED' ) {
+					$rootScope.message = 'Sorry, you must login to access that page.';
+					$location.path( '/' );
+				}
+			}
+		);
+	}
+]);
+
 myApp.config( ['$routeProvider', function( $routeProvider ) {
 	$routeProvider.
 		when( '/about', {

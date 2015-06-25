@@ -2,16 +2,15 @@
 <html lang="en" ng-app="myApp">
 <head>
 	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Salaries project</title>
 	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
+    <nav ng-include="'views/nav.html'" ng-controller="NavController"></nav>
 	
-    <div class="container">
-        <div class="header clearfix">
-            <nav ng-include="'views/nav.html'" ng-controller="NavController"></nav>
-            <h3 class="text-muted">Salaries Project</h3>
-        </div>
+    <div class="container-fluid">
 
         <main ng-view></main>
 

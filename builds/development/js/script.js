@@ -10,6 +10,19 @@ var myApp = angular.module( 'myApp', ['ngRoute', 'appControllers', 'firebase'] )
 
 var appControllers = angular.module( 'appControllers', ['firebase'] );
 
+myApp.run( ['$rootScope', '$location',
+	function( $rootScope, $location ) {
+		$rootScope.$on( '$routeChangeError',
+			function( event, next, previous, error ) {
+				if( error === 'AUTH_REQUIRED' ) {
+					$rootScope.message = 'Sorry, you must login to access that page.';
+					$location.path( '/' );
+				}
+			}
+		);
+	}
+]);
+
 myApp.config( ['$routeProvider', function( $routeProvider ) {
 	$routeProvider.
 		when( '/about', {
@@ -33,6 +46,12 @@ myApp.controller( 'NavController', function( $scope, $location) {
 	$scope.isViewActive = function ( viewLocation ) { 
         return viewLocation === $location.path();
     };
+
+    // Dummy user object to be used until full authentication and login is in place
+    var currentUser = {
+    	loggedIn : false
+    };
+    $scope.currentUser = currentUser;
 	
 }); // NavController
 },{"angular":5,"angular-route":3,"angularfire":7,"firebase":8}],2:[function(require,module,exports){
