@@ -173,7 +173,7 @@ gulp.task( 'js', function() {
 		.pipe( concat( 'script.js' ) )
 		.pipe( browserify() )
 		//.pipe( gulpif( env === 'production', rename( { suffix : '.min' } ) ) )
-		.pipe( gulpif(env === 'production', uglify() ) )
+		.pipe( gulpif( env === 'production', uglify() ) )
 		.pipe( gulp.dest( outputDir + '/js' ) )
 		.pipe( connect.reload() );
 	logInfo( sources.js, outputDir + '/js' );
