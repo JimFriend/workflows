@@ -56,8 +56,8 @@ var paths = {
 			css 		: './bower_components/fontawesome/css',
 			sass 		: './bower_components/fontawesome/scss',
 			fonts 		: './bower_components/fontawesome/fonts'
-		}
-
+		},
+		jquery			: './bower_components/jquery/dist'
 	}
 };
 
@@ -66,7 +66,11 @@ var sources = {
 	html 				: [paths.dev.base + '/*.html'],
 	views				: [paths.dev.views + '/*.html'],
 	css 				: [paths.components.sass + '/style.scss'],
-	js 					: [paths.components.js + '/*.js', paths.components.controllers + '/*.js'],
+	js 					: [
+		paths.components.js + '/*.js', 
+		paths.components.controllers + '/*.js',
+		paths.vendor.bootstrap.js + '/bootstrap.js'
+	],
 	json 				: [paths.dev.js + '/*.json'],
 	fonts 				: [paths.vendor.bootstrap.fonts + '/**.*'],
 	icons 				: [paths.vendor.fontawesome.fonts + '/**.*']
