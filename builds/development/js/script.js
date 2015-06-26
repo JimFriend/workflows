@@ -65,16 +65,24 @@ myApp.controller( 'RegistrationController', function( $scope, $firebaseAuth, Aut
 
 	$scope.login = function() {
 		Authentication.login( $scope.user )
-		.then( function( user ) {
-			$( '#LoginModal' ).modal( 'hide' );
-		}).catch( function( error ) {
-			$scope.message = error.message;
-		});
-	} // login
+			.then( function( user ) {
+				$( '#LoginModal' ).modal( 'hide' );
+			}).catch( function( error ) {
+				$scope.message = error.message;
+			});
+	}; // login
 
 	$scope.register = function() {
 
-	} // register
+		Authentication.register( $scope.user )
+			.then( function( user ) {
+				Authentication.login( $scope.user );
+				$( '#RegisterModal' ).modal( 'hide' );
+			}).catch( function( user ) {
+				$scope.message = error.message;
+			});
+
+	}; // register
 
 }); // RegistrationController
 myApp.factory('Authentication', function($firebaseArray, $firebaseObject, $firebaseAuth, $rootScope, $routeParams, $location, FIREBASE_URL) {
@@ -91,6 +99,13 @@ myApp.factory('Authentication', function($firebaseArray, $firebaseObject, $fireb
 				password 	: user.password
 			}); // authwithPassword
 		}, // login
+
+		register: function( user ) {
+			return auth.$createUser({
+				email 		: user.email,
+				password 	: user.password
+			});
+		} // register
 		
 	}; // myObject
 	

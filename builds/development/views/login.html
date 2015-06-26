@@ -6,11 +6,9 @@
 				<h4 class="modal-title" id="myModalLabel">Login</h4>
 			</div>
 			<div class="modal-body">
-				<form name="newUser" novalidate
+				<form name="LoginUser" novalidate
 					ng-submit="login()" ng-controller="RegistrationController">
 		
-					<p class="error formerror"></p>
-
 					<div class="alert alert-danger alert-dismissible" role="alert"
 						 ng-show="message">
 						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -18,13 +16,13 @@
 					</div>
 
 					<div class="alert alert-danger alert-dismissible" role="alert"
-						ng-show="newUser.email.$invalid && newUser.email.$touched">
+						ng-show="LoginUser.email.$invalid && LoginUser.email.$touched">
 						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 						<strong>Oops!</strong> Please enter a valid email address.
 					</div>
 					
 					<div class="alert alert-danger alert-dismissible" role="alert"
-						ng-show="newUser.password.$invalid && newUser.password.$touched">
+						ng-show="LoginUser.password.$invalid && LoginUser.password.$touched">
 						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 						<strong>Oops!</strong> You must provide a valid password.
 					</div>
@@ -42,7 +40,7 @@
 					</div>					
 					
 					<button type="submit" class="btn btn-lg btn-success btn-block"
-						ng-disabled="newUser.$invalid">
+						ng-disabled="LoginUser.$invalid">
 						Login
 					</button>
 
