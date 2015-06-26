@@ -7,7 +7,7 @@ var Firebase 	= require( 'firebase' );
 var angularFire = require( 'angularfire' );
 
 var myApp = angular.module( 'myApp', ['ngRoute', 'appControllers', 'firebase'] )
-	.constant( 'FIREBASE_URL', 'https://salaries.firebaseio.com/' );
+	.constant( 'FIREBASE_URL', 'https://mycoffeenotes.firebaseio.com/' );
 
 var appControllers = angular.module( 'appControllers', ['firebase'] );
 
@@ -55,6 +55,48 @@ myApp.controller( 'NavController', function( $scope, $location) {
     $scope.currentUser = currentUser;
 	
 }); // NavController
+// @TODO
+// - Add a regex to the password input to enforce strong passwords
+
+myApp.controller( 'RegistrationController', function( $scope, $firebaseAuth, Authentication, $location, FIREBASE_URL) {
+
+	var ref = new Firebase( FIREBASE_URL );
+	var auth = $firebaseAuth( ref );
+
+	$scope.login = function() {
+		Authentication.login( $scope.user )
+		.then( function( user ) {
+			$( '#LoginModal' ).modal( 'hide' );
+		}).catch( function( error ) {
+			$scope.message = error.message;
+		});
+	} // login
+
+	$scope.register = function() {
+
+	} // register
+
+}); // RegistrationController
+myApp.factory('Authentication', function($firebaseArray, $firebaseObject, $firebaseAuth, $rootScope, $routeParams, $location, FIREBASE_URL) {
+
+	var ref 	= new Firebase( FIREBASE_URL );
+	var auth 	= $firebaseAuth( ref );	
+	
+	// temporary object
+	var myObject = {
+		
+		login: function( user ) {
+			return auth.$authWithPassword({
+				email 		: user.email,
+				password 	: user.password
+			}); // authwithPassword
+		}, // login
+		
+	}; // myObject
+	
+	return myObject;
+
+}); // Authentication Factory
 /*!
  * Bootstrap v3.3.5 (http://getbootstrap.com)
  * Copyright 2011-2015 Twitter, Inc.

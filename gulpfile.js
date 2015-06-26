@@ -69,6 +69,7 @@ var sources = {
 	js 					: [
 		paths.components.js + '/*.js', 
 		paths.components.controllers + '/*.js',
+		paths.components.services + '/*.js',
 		paths.vendor.bootstrap.js + '/bootstrap.js'
 	],
 	json 				: [paths.dev.js + '/*.json'],

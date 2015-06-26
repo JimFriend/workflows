@@ -6,7 +6,7 @@ var Firebase 	= require( 'firebase' );
 var angularFire = require( 'angularfire' );
 
 var myApp = angular.module( 'myApp', ['ngRoute', 'appControllers', 'firebase'] )
-	.constant( 'FIREBASE_URL', 'https://salaries.firebaseio.com/' );
+	.constant( 'FIREBASE_URL', 'https://mycoffeenotes.firebaseio.com/' );
 
 var appControllers = angular.module( 'appControllers', ['firebase'] );
 
