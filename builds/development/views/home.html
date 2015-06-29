@@ -5,17 +5,17 @@
         <div class="col-md-4">
             <h3>Rate your favorite coffees</h3>
             <p>Save and rate coffees at your favorite coffee shops! Never forget what you like by saving tasting notes, roaster and coffee coffee information for each coffee. You'll also be able to save a picture of each coffee.</p>
-            <p ng-show="{{ currentUser.loggedIn }}"><a class="btn btn-default" ng-href="#/account" role="button">View your coffees &raquo;</a></p>
+            <p ng-show="currentUser"><a class="btn btn-default" ng-href="#/account" role="button">View your coffees &raquo;</a></p>
         </div>
         <div class="col-md-4">
             <h3>Build your coffee profile</h3>
             <p>Let us figure out what makes a coffee taste good to you. We'll evaluate all of your coffees, their ratings, and their specific data to determine which notes and coffees you like best.</p>
-            <p ng-show="{{ currentUser.loggedIn }}"><a class="btn btn-default" ng-href="#/profile" role="button">View your coffee profile &raquo;</a></p>
+            <p ng-show="currentUser"><a class="btn btn-default" ng-href="#/profile" role="button">View your coffee profile &raquo;</a></p>
         </div>
         <div class="col-md-4">
             <h3>Find your ideal coffee</h3>
             <p>Your coffee profile will be able to tell you what tastes you like best, and what coffees you've rated highest. Coffee insights will help you find new coffees.</p>
-            <p ng-show="{{ currentUser.loggedIn }}"><a class="btn btn-default" ng-href="#/insights" role="button">View coffee insights &raquo;</a></p>
+            <p ng-show="currentUser"><a class="btn btn-default" ng-href="#/insights" role="button">View coffee insights &raquo;</a></p>
         </div>
     </div>
 </div>

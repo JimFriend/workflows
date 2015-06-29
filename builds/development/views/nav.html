@@ -1,5 +1,6 @@
 <!-- Fixed navbar -->
-<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="navbar navbar-default navbar-fixed-top" role="navigation"
+	ng-controller="StatusController">
 	<div class="container">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
@@ -17,10 +18,10 @@
 			    <li ng-class="{ active: isViewActive( '/contact' ) }"><a ng-href="#/contact">Contact</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li ng-class="{ active: isViewActive( '/account' ) }" ng-show="{{ currentUser.loggedIn }}"><a ng-href="#/account">My Coffees</a></li>
-				<li ng-class="{ active: isViewActive( '/admin' ) }" ng-show="{{ currentUser.loggedIn }}"><a ng-href="#/admin">Admin</a></li>
-				<li ng-class="{ active: isViewActive( '/logout' ) }" ng-show="{{ currentUser.loggedIn }}"><a ng-href="#/logout">Logout</a></li>
-				<li ng-class="{ active: isViewActive( '/login' ) }"><a ng-href="#/login" data-toggle="modal" data-target="#LoginModal" ng-hide="{{ currentUser.loggedIn }}">Login / Register</a></li>
+				<li ng-class="{ active: isViewActive( '/account' ) }" ng-show="currentUser"><a ng-href="#/account">My Coffees</a></li>
+				<li ng-class="{ active: isViewActive( '/admin' ) }" ng-show="currentUser"><a ng-href="#/admin">Admin</a></li>
+				<li ng-class="{ active: isViewActive( '/logout' ) }" ng-show="currentUser"><a ng-href="#/logout" ng-click="logout()">Logout</a></li>
+				<li ng-class="{ active: isViewActive( '/login' ) }"><a ng-href="#/login" data-toggle="modal" data-target="#LoginModal" ng-hide="currentUser">Login / Register</a></li>
 			</ul>                
 		</div><!-- /.nav-collapse -->
 	</div><!-- /container -->
