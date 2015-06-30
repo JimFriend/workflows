@@ -42,6 +42,10 @@ myApp.config( ['$routeProvider', function( $routeProvider ) {
 			redirectTo: '/'
 		});
 }]);
+// @TODO
+// - Closing out modal after a successful submission is buggy. Need to clear messages and form fields.
+// - Should success messaging be done on the page or on the modal?
+
 myApp.controller( 'CoffeeController', function( $scope, $rootScope, $firebaseArray, FIREBASE_URL) {
 
 	$scope.addCoffee = function() {
@@ -68,6 +72,7 @@ myApp.controller( 'CoffeeController', function( $scope, $rootScope, $firebaseArr
 	};
 
 	$scope.closeModal = function() {
+		$scope.success = "";
 		$( '#CoffeeModal' ).modal( 'hide' );
 	};
 	
