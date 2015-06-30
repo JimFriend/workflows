@@ -9,50 +9,65 @@
 				<form name="AddCoffee" novalidate
 					ng-submit="addCoffee()" ng-controller="CoffeeController">				
 
-					<div class="alert alert-danger alert-dismissible" role="alert"
-						ng-show="AddCoffee.name.$invalid && AddCoffee.name.$touched">
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<strong>Oops!</strong> Please enter a name for your coffee.
-					</div>
+					<div class="success-container"
+						ng-show="success">
+						<div class="alert alert-success" role="alert">
+							<strong>Success!</strong> {{ success }}
+						</div>
 
-					<div class="alert alert-danger alert-dismissible" role="alert"
-						ng-show="AddCoffee.roaster.$invalid && AddCoffee.roaster.$touched">
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<strong>Oops!</strong> You forgot to select a coffee roaster.
-					</div>
-
-					<div class="input-group input-group-lg form-group">
-					  <span class="input-group-addon"><i class="fa fa-coffee"></i></span>
-					  <input type="text" name="name" id="name" class="form-control" placeholder="Name"
-					  	ng-model="coffee.name" ng-required="true">
-					</div>									
-
-					<div class="input-group input-group-lg form-group" style="width:100%;">
-						<span class="text-muted">Roaster</span>
-						<select id="roaster" name="roaster" class="form-control" tabindex="1"
-							ng-model="coffee.roaster" ng-required="true">
-				            <option value=""></option>
-							<option value="roaster1">Roaster 1</option>
-							<option value="roaster2">Roaster 2</option>
-				          </select>
-					</div>
-					
-					<div>
-					  <span class="text-muted">Description</span>
-					  <textarea class="form-control" id="description" name="description" rows="3"></textarea>
-					</div>	
-					
-					<div style="padding:15px 0;">
-	
-						<button type="submit" class="btn btn-lg btn-success btn-block"
-							ng-disabled="AddCoffee.$invalid">
-							Save
-						</button>
+						<button type="button" class="btn btn-lg btn-success btn-block" data-dismiss="alert" aria-label="Close"
+							ng-click="closeModal()">Close</button>
 
 					</div>
 
-				</form>
-			</div>
+					<div class="forms-container"
+						ng-hide="success">
+						<div class="alert alert-danger alert-dismissible" role="alert"
+							ng-show="AddCoffee.name.$invalid && AddCoffee.name.$touched">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<strong>Oops!</strong> Please enter a name for your coffee.
+						</div>
+
+						<div class="alert alert-danger alert-dismissible" role="alert"
+							ng-show="AddCoffee.roaster.$invalid && AddCoffee.roaster.$touched">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<strong>Oops!</strong> You forgot to select a coffee roaster.
+						</div>
+
+						<div class="input-group input-group-lg form-group">
+						  <span class="input-group-addon"><i class="fa fa-coffee"></i></span>
+						  <input type="text" name="name" id="name" class="form-control" placeholder="Name"
+						  	ng-model="coffee.name" ng-required="true">
+						</div>									
+
+						<div class="input-group input-group-lg form-group" style="width:100%;">
+							<span class="text-muted">Roaster</span>
+							<select id="roaster" name="roaster" class="form-control" tabindex="1"
+								ng-model="coffee.roaster" ng-required="true">
+					            <option value=""></option>
+								<option value="roaster1">Roaster 1</option>
+								<option value="roaster2">Roaster 2</option>
+					          </select>
+						</div>
+						
+						<div>
+						  <span class="text-muted">Description</span>
+						  <textarea class="form-control" id="description" name="description" rows="3"
+						  	ng-model="coffee.description"></textarea>
+						</div>	
+						
+						<div style="padding:15px 0;">
+		
+							<button type="submit" class="btn btn-lg btn-success btn-block"
+								ng-disabled="AddCoffee.$invalid">
+								Save
+							</button>
+
+						</div>						
+					</div> <!-- /.forms-container -->
+
+				</form> <!-- / AddCoffee -->
+			</div> <!-- /.modal-body -->
 		</div><!-- /.modal-content -->
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
