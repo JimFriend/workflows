@@ -33,7 +33,10 @@ myApp.config( ['$routeProvider', function( $routeProvider ) {
 			templateUrl: 'views/contact.html'
 			// controller: 'ContactController'
 		}).
-		when( '/', {
+		when( '/admin', {
+			templateUrl: 'views/admin.html',
+			controller: 'AdminController'
+		}).		when( '/', {
 			templateUrl: 'views/home.html'
 			// controller: 'AboutController'
 		}).

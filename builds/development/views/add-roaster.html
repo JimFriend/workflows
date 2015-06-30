@@ -1,0 +1,51 @@
+<div class="modal fade" id="RoasterModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+    	<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">Add Roaster</h4>
+			</div>
+			<div class="modal-body">
+				<form name="AddRoaster" novalidate
+					ng-submit="addRoaster()" ng-controller="RoasterController">				
+
+					<div class="success-container"
+						ng-show="success">
+						<div class="alert alert-success" role="alert">
+							<strong>Success!</strong> {{ success }}
+						</div>
+
+						<button type="button" class="btn btn-lg btn-success btn-block" data-dismiss="alert" aria-label="Close"
+							ng-click="closeModal()">Close</button>
+
+					</div>
+
+					<div class="forms-container"
+						ng-hide="success">
+						<div class="alert alert-danger alert-dismissible" role="alert"
+							ng-show="AddRoaster.name.$invalid && AddRoaster.name.$touched">
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							<strong>Oops!</strong> Please enter a name for your roaster.
+						</div>
+
+						<div class="input-group input-group-lg form-group">
+						  <span class="input-group-addon"><i class="fa fa-truck"></i></span>
+						  <input type="text" name="name" id="name" class="form-control" placeholder="Name"
+						  	ng-model="roaster.name" ng-required="true">
+						</div>									
+						
+						<div style="padding:15px 0;">
+		
+							<button type="submit" class="btn btn-lg btn-success btn-block"
+								ng-disabled="AddRoaster.$invalid">
+								Save
+							</button>
+
+						</div>						
+					</div> <!-- /.forms-container -->
+
+				</form> <!-- / AddRoaster -->
+			</div> <!-- /.modal-body -->
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
