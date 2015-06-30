@@ -42,6 +42,11 @@ myApp.config( ['$routeProvider', function( $routeProvider ) {
 			redirectTo: '/'
 		});
 }]);
+myApp.controller( 'CoffeeController', function( $scope, $rootScope, $location) {
+
+
+	
+}); // CoffeeController
 myApp.controller( 'NavController', function( $scope, $rootScope, $location) {
 
 	$scope.isViewActive = function ( viewLocation ) { 
